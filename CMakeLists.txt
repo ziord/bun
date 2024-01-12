@@ -396,16 +396,21 @@ if(NOT WEBKIT_DIR)
     endif()
 
     set(BUN_WEBKIT_PACKAGE_NAME "bun-webkit-${BUN_WEBKIT_PACKAGE_PLATFORM}-${BUN_WEBKIT_PACKAGE_ARCH}${BUN_WEBKIT_PACKAGE_NAME_SUFFIX}")
-
-    message(STATUS "Using Pre-built WebKit: ${BUN_WEBKIT_PACKAGE_NAME}")
-    execute_process(
-        COMMAND "${SHELL}"
-        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/download-webkit.${SCRIPT_EXTENSION}"
-        "${BUN_WORKDIR}/bun-webkit"
-        "${WEBKIT_TAG}"
-        "${BUN_WEBKIT_PACKAGE_NAME}"
-        WORKING_DIRECTORY ${BUN_WORKDIR}
+    set(WEBKIT_INSTALL_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/getwebkit.sh")
+    message(STATUS "Getting WebKit.. ${WEBKIT_INSTALL_SCRIPT}")
+    execute_process (
+        COMMAND bash -c "chmod +x ${WEBKIT_INSTALL_SCRIPT}"
+        OUTPUT_VARIABLE getwebkit_out
     )
+    message(STATUS "getwebkit.sh: ${getwebkit_out}")
+    message(STATUS "build type: ${CMAKE_BUILD_TYPE}")
+    execute_process(
+        COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/getwebkit.sh" ${CMAKE_BUILD_TYPE}
+        RESULT_VARIABLE WebKit_INSTALL_RESULT
+        OUTPUT_VARIABLE WebKit_INSTALL_OUTPUT
+    )
+    message(STATUS "webkit output: ${WebKit_INSTALL_OUTPUT}")
+    message(STATUS "webkit install result: ${WebKit_INSTALL_RESULT}")
 
     if(NOT EXISTS "${BUN_WORKDIR}/bun-webkit")
         message(FATAL_ERROR "Prebuilt WebKit package ${BUN_WEBKIT_PACKAGE_NAME} failed to install")
