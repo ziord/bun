@@ -2,8 +2,9 @@
 set -euxo pipefail
 build_type=$1
 curr_d=$(pwd)
-webkit="$(dirname $curr_d)/src/bun.js/WebKit"
-getzig="$(dirname $curr_d)/getzig.sh"
+full=$(readlink -f "$0")
+webkit="$(dirname $full)"/src/bun.js/WebKit
+getzig="$(dirname $full)"/getzig.sh
 git submodule update --init --depth 1 --checkout $webkit
 cd $webkit && git checkout patches && git config pull.rebase true && git pull origin patches
 
