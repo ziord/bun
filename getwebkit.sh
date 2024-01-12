@@ -9,6 +9,10 @@ git submodule update --init --depth 1 --checkout $webkit
 cd $webkit && git checkout patches && git config pull.rebase true && git pull origin patches
 
 chmod +x install.sh && ./install.sh $build_type
-mv "$webkit/WebKitBuild/bun-webkit" "$curr_d/bun-webkit"
+if [[ $build_type == "Release" ]]; then
+    mv "$webkit/WebKitBuild/bun-webkit" "$(dirname $full)/build-release/bun-webkit"
+else
+    mv "$webkit/WebKitBuild/bun-webkit" "$(dirname $full)/build/bun-webkit"
+fi
 chmod +x $getzig && ./$getzig
 cd $curr_d

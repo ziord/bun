@@ -413,7 +413,7 @@ if(NOT WEBKIT_DIR)
     message(STATUS "webkit install result: ${WebKit_INSTALL_RESULT}")
 
     if(NOT EXISTS "${BUN_WORKDIR}/bun-webkit")
-        message(FATAL_ERROR "Prebuilt WebKit package ${BUN_WEBKIT_PACKAGE_NAME} failed to install")
+        message(FATAL_ERROR "WebKit package ${BUN_WEBKIT_PACKAGE_NAME} failed to install")
     endif()
 
     set(WEBKIT_INCLUDE_DIR "${BUN_WORKDIR}/bun-webkit/include")
