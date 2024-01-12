@@ -6,7 +6,7 @@ platform=$(uname -s)
 case $platform in
     Linux*)     platform="linux" ;;
     Darwin*)    platform="macos" ;;
-    *)          platform="Unknown" ;;
+    *)          echo "Unsupported platform" && exit 1 ;;
 esac
 if [[ $BUILD_MACHINE_ARCH == *arm* ]]; then
     BUILD_MACHINE_ARCH=x86_64
